@@ -3,8 +3,6 @@
 
 int main() {
     Board board;
-    std::cout << "Othello Board:\n";
-    board.print_board();
-
+    board.play_game();
     return 0;
 }

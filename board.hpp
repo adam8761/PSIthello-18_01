@@ -26,8 +26,16 @@ public:
 
     /**
      * @brief prints the board on the terminal
+     * 
+     * @param current_player the current player. its mainly for the player to see on the board
+     * the (*), so he knows what are his valid moves in his turn.
      */
-    void print_board() const;
+    void print_board(PieceType current_player) const;
+
+    /**
+     * @brief the function that runs the flow of the game
+     */
+    void play_game();
 
     // to add as i continue
 
