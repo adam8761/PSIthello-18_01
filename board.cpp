@@ -21,7 +21,7 @@ void Board::init_board() {
     _cells[mid][mid].set_piece(PieceType::WHITE);
 }
 
-void Board::print_board(PieceType current_player) const {
+void Board::print_board(Player* current_player) const {
     std::vector<std::pair<int,int>> valid = get_valid_moves(current_player);
     std::cout << "  ";
     for (char col = 'A'; col < 'A' + BOARD_SIZE; col++)
@@ -49,7 +49,9 @@ void Board::print_board(PieceType current_player) const {
 }
 
 void Board::play_game() {
-    PieceType current_player = PieceType::BLACK;
+    //PieceType current_player = PieceType::BLACK;
+    Player* current_player = new UserPlayer("X", PieceType::BLACK);
+    Player* second_player = new UserPlayer("O", PieceType::WHITE);
 
     while (true) {
         std::cout << "hi enjoy the game:\n";
@@ -57,10 +59,10 @@ void Board::play_game() {
 
         std::vector<std::pair<int,int>> valid_moves = get_valid_moves(current_player);
         if (valid_moves.empty()) {
-            std::cout << "no valid moves for this player " << (current_player == PieceType::BLACK ? "X" : "O") << ".\n";
+            std::cout << "no valid moves for this player " << (current_player->get_symbol() == PieceType::BLACK ? "X" : "O") << ".\n";
 
             // to check if the other player is out of moves too
-            std::vector<std::pair<int,int>> opponent_moves = get_valid_moves(current_player == PieceType::BLACK ? PieceType::WHITE : PieceType::BLACK);
+            std::vector<std::pair<int,int>> opponent_moves = get_valid_moves(current_player->get_symbol() == PieceType::BLACK ? current_player : second_player);
             if (opponent_moves.empty()) {
                 std::cout << "no more moves for 2 players. game over\n";
                 int black_score = count_color(PieceType::BLACK);
@@ -70,12 +72,12 @@ void Board::play_game() {
             }
 
             // tried to switch to other player turn
-            current_player = (current_player == PieceType::BLACK ? PieceType::WHITE : PieceType::BLACK);
+            current_player = (current_player->get_symbol() == PieceType::BLACK ? current_player : second_player);
             continue;
         }
 
         std::string move;
-        std::cout << "Player " << (current_player == PieceType::BLACK ? "X" : "O") << " enter move (e.g., D3): ";
+        std::cout << "Player " << (current_player->get_symbol() == PieceType::BLACK ? "X" : "O") << " enter move (e.g., D3): ";
         std::cin >> move;
 
         int col = toupper(move[0]) - 'A';
@@ -87,8 +89,8 @@ void Board::play_game() {
             std::cout << "Invalid move!\n";
             continue;
         }
-        place_piece(row,col,current_player);
-        current_player = (current_player == PieceType::BLACK ? PieceType::WHITE : PieceType::BLACK);
+        place_piece(row,col,current_player->get_symbol());
+        current_player = (current_player->get_symbol() == PieceType::BLACK ? current_player : second_player);
     }
 }
 
@@ -101,9 +103,9 @@ void Board::flip_piece(int row, int col) {
         _cells[row][col].set_piece(PieceType::BLACK);
 }
 
-std::vector<std::pair<int,int>> Board::get_valid_moves(PieceType player) const {
+std::vector<std::pair<int,int>> Board::get_valid_moves(Player* player) const {
     std::vector<std::pair<int,int>> moves;
-    PieceType opponent = (player == PieceType::BLACK ? PieceType::WHITE : PieceType::BLACK);
+    PieceType opponent = (player->get_symbol() == PieceType::BLACK ? PieceType::WHITE : PieceType::BLACK);
     int directions[8][2] = {{-1,-1},{-1,0},{-1,1}, {0,-1},{0,1}, {1,-1},{1,0},{1,1}};
 
     for (int row = 0; row < BOARD_SIZE; row++) {
@@ -123,7 +125,7 @@ std::vector<std::pair<int,int>> Board::get_valid_moves(PieceType player) const {
                     if (piece == opponent) {
                         found_opponent = true;
                     }
-                    else if (piece == player) {
+                    else if (piece == player->get_symbol()) {
                         if (found_opponent)
                             valid = true;
                         break;
@@ -138,7 +140,7 @@ std::vector<std::pair<int,int>> Board::get_valid_moves(PieceType player) const {
                     break;
             }
             if (valid)
-                moves.emplace_back(row, col);
+                moves.push_back(std::pair<int,int>(row,col));
         }
     }
     return moves;

@@ -1,5 +1,5 @@
 #pragma once
-// #include "board.hpp"
+#include "board.hpp"
 #include "user_player.hpp"
 
 #include <iostream>
@@ -22,7 +22,7 @@ protected:
     static constexpr char O_WHITE_PLAYER_NAME[] = "O";
 
 private:
-    // Board _board;
+    Board _board;
     Player *_players[PLAYERS_COUNT];
     int _scores[PLAYERS_COUNT];
     int _curr_player_index;

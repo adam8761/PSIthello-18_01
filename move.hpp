@@ -21,7 +21,7 @@ public:
     /**
      * @brief constructor of Move receiving cordinates and directions it affects
      */
-    Move(int col, int row, std::vector<Direction> affects) : _col(col), _row(row), _affects(affects) {};
+    Move(int row, int col, std::vector<Direction> affects = std::vector<Direction>()) : _row(row), _col(col), _affects(affects) {};
 
     /**
      * @brief getter of field _row

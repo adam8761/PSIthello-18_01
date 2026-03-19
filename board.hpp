@@ -1,5 +1,6 @@
 #pragma once
 #include "piece_type.hpp"
+#include "user_player.hpp"
 #include "cell.hpp"
 #include <vector>
 #include <iostream>
@@ -30,7 +31,7 @@ public:
      * @param current_player the current player. its mainly for the player to see on the board
      * the (*), so he knows what are his valid moves in his turn.
      */
-    void print_board(PieceType current_player) const;
+    void print_board(Player* current_player) const;
 
     /**
      * @brief the function that runs the flow of the game
@@ -56,7 +57,7 @@ public:
      * 
      * @return vector that contains the valid moves this player can choose right now
      */
-    std::vector<std::pair<int,int>> get_valid_moves(PieceType player) const;
+    std::vector<std::pair<int,int>> get_valid_moves(Player* player) const;
 
     /**
      * @brief places piece on the board.
