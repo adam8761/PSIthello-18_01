@@ -2,14 +2,18 @@
 
 void Game::start_game()
 {
-    
-    //this->_players[X_BLACK_PLAYER_INDEX] = new UserPlayer(X_BLACK_PLAYER_NAME, PieceType::BLACK);
-    //this->_players[O_WHITE_PLAYER_INDEX] = new UserPlayer(O_WHITE_PLAYER_NAME, PieceType::WHITE);
 
-    //this->_board->init_board();
+    // this->_players[X_BLACK_PLAYER_INDEX] = new UserPlayer(X_BLACK_PLAYER_NAME, PieceType::BLACK);
+    // this->_players[O_WHITE_PLAYER_INDEX] = new UserPlayer(O_WHITE_PLAYER_NAME, PieceType::WHITE);
 
-    this->_curr_player_index = 0;
-    while (!this->is_game_over()){
+    // this->_board->init_board();
+    this->_scores[X_BLACK_PLAYER_INDEX] = 0;
+    this->_scores[O_WHITE_PLAYER_INDEX] = 0;
+
+    this->_curr_player_index = X_BLACK_PLAYER_INDEX; // black/x starts
+
+    while (!this->is_game_over())
+    {
         this->take_turn();
         this->load_board();
     }
