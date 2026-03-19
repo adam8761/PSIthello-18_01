@@ -139,6 +139,37 @@ std::vector<std::pair<int,int>> Board::get_valid_moves(PieceType player) const {
     return moves;
 }
 
-void Board::place_piece(int row, int col, PieceType piece) {}
-int Board::count_color(PieceType color) const { return 0; }
+void Board::place_piece(int row, int col, PieceType piece)
+{
+    _cells[row][col].set_piece(piece);
+    PieceType opponent = (piece == PieceType::BLACK) ? PieceType::WHITE : PieceType::BLACK;
+    int directions[8][2] = {{-1,-1},{-1,0},{-1,1}, {0,-1},{0,1}, {1,-1},{1,0},{1,1}};
+
+    for (const auto& dir : directions)
+    {
+        int new_row = row + dir[0];
+        int new_col = col + dir[1];
+
+        std::vector<std::pair<int,int>> to_flip;
+        while (new_row >= 0 && new_row < BOARD_SIZE && new_col >= 0 && new_col < BOARD_SIZE &&
+               _cells[new_row][new_col].get_piece() == opponent)
+        {
+            to_flip.push_back({new_row, new_col});
+            new_row += dir[0];
+            new_col += dir[1];
+        }
+
+        if (new_row >= 0 && new_row < BOARD_SIZE && new_col >= 0 && new_col < BOARD_SIZE &&
+            _cells[new_row][new_col].get_piece() == piece)
+        {
+            for (auto& pos : to_flip)
+            {
+                _cells[pos.first][pos.second].set_piece(piece);
+            }
+        }
+    }
+}
+
+
+
 int Board::count_score() const { return 0; }
