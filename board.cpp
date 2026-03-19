@@ -57,19 +57,19 @@ void Board::play_game() {
 
         std::vector<std::pair<int,int>> valid_moves = get_valid_moves(current_player);
         if (valid_moves.empty()) {
-            std::cout << "No valid moves for player " << (current_player == PieceType::BLACK ? "X" : "O") << ".\n";
+            std::cout << "no valid moves for this player " << (current_player == PieceType::BLACK ? "X" : "O") << ".\n";
 
             // to check if the other player is out of moves too
             std::vector<std::pair<int,int>> opponent_moves = get_valid_moves(current_player == PieceType::BLACK ? PieceType::WHITE : PieceType::BLACK);
             if (opponent_moves.empty()) {
-                std::cout << "No more moves for both players. Game over!\n";
+                std::cout << "no more moves for 2 players. game over\n";
                 int black_score = count_color(PieceType::BLACK);
                 int white_score = count_color(PieceType::WHITE);
-                std::cout << "Score - X: " << black_score << ", O: " << white_score << "\n";
+                std::cout << "score X: " << black_score << ", O: " << white_score << "\n";
                 return;
             }
 
-            // switches to other player turn
+            // tried to switch to other player turn
             current_player = (current_player == PieceType::BLACK ? PieceType::WHITE : PieceType::BLACK);
             continue;
         }
@@ -78,11 +78,16 @@ void Board::play_game() {
         std::cout << "Player " << (current_player == PieceType::BLACK ? "X" : "O") << " enter move (e.g., D3): ";
         std::cin >> move;
 
-        // TODO: המרת move ל-row,col
-        // TODO: בדיקת חוקיות
-        // TODO: קריאה ל-place_piece ו-flip_piece
+        int col = toupper(move[0]) - 'A';
+        int row = move[1] - '1';
 
-        // החלפת שחקן
+        std::pair<int,int> chosen = {row,col};
+
+        if (std::find(valid_moves.begin(), valid_moves.end(), chosen) == valid_moves.end()) {
+            std::cout << "Invalid move!\n";
+            continue;
+        }
+        place_piece(row,col,current_player);
         current_player = (current_player == PieceType::BLACK ? PieceType::WHITE : PieceType::BLACK);
     }
 }
@@ -170,6 +175,17 @@ void Board::place_piece(int row, int col, PieceType piece)
     }
 }
 
+int Board::count_color(PieceType color) const {
+    int count = 0;
+    for (int row = 0; row < BOARD_SIZE; row++) {
+        for (int col = 0; col < BOARD_SIZE; col++) {
+            if (_cells[row][col].get_piece() == color)
+                count++;
+        }
+    }
+    return count;
+}
 
-
-int Board::count_score() const { return 0; }
+int Board::count_score() const {
+    return count_color(PieceType::BLACK) - count_color(PieceType::WHITE);
+}
