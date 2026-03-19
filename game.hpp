@@ -29,10 +29,24 @@ private:
 
 public:
     /**
-     * @brief 
+     * @brief function initializes a new game and starts its flow run
      */
     void start_game();
+
+    /**
+     * @brief function loads the console screen with board and relevant prints
+     */
     void load_board();
+
+    /**
+     * @brief function is responsible for turn taking and commiting on screen
+     */
     void take_turn();
+
+    /**
+     * @brief function checks if game is at deadend and over, returns a formal boolean
+     *
+     * @return true-game over, false-game not over
+     */
     bool is_game_over();
 };

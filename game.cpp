@@ -24,14 +24,14 @@ void Game::load_board()
 {
     system("cls");
     // this->_board->print_board();
-    std::cout << "Player "<<_curr_player_index << this->_players[this->_curr_player_index]->get_name() << "enter move (e.g., D3):";
+    std::cout << "Player " << this->_players[this->_curr_player_index]->get_name() << " enter move (e.g., D3):";
 }
 
 void Game::take_turn()
 {
     // std::vector<std::pair<int,int>> available_moves = this->_board->get_valid_moves(this->_players[this->_curr_player_index]);
     std::vector<std::pair<int, int>> available_moves;
-    
+
     available_moves.push_back(std::pair<int, int>(5, 4));
 
     Move move = this->_players[this->_curr_player_index]->get_move();
@@ -40,7 +40,7 @@ void Game::take_turn()
     {
         move = this->_players[this->_curr_player_index]->get_move();
     }
-    //this->_board.place_piece(std::pair <int,int>(move.get_col(), move.get_row()));
+    // this->_board.place_piece(std::pair <int,int>(move.get_col(), move.get_row()));
 
     this->_curr_player_index = !this->_curr_player_index;
 }

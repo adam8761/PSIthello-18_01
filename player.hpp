@@ -6,7 +6,7 @@
 
 /**
  * @class Player class
- * @brief class represents a game engine of the game othello
+ * @brief abstract class represents a basic player in the othello game
  */
 class Player
 {
@@ -16,9 +16,25 @@ private:
     PieceType _symbol;
 
 public:
-    Player(std::string name, PieceType type);
+    /**
+     * @brief constructor of Player receiving name and player color type
+     */
+    Player(std::string name, PieceType type) : _name(name), _symbol(type) {};
 
+    /**
+     * @brief getter for _name field
+     * @return _name value
+     */
     std::string get_name() const;
+
+    /**
+     * @brief getter for _symbol field
+     * @return _symbol value
+     */
     PieceType get_symbol() const;
+
+    /**
+     * @brief virtual function of generating a move from the user, for each use to have its own way of generating a move
+     */
     virtual Move get_move() = 0;
 };
