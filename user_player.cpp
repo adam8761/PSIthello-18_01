@@ -14,8 +14,6 @@ Move UserPlayer::get_move()
     }
     else
     {
-        std::cout << "allgood" << std::endl;
-        std::cout << "(" << move_input[0] << "," << move_input[1] << ")" << std::endl;
         return Move(move_input[1] - 49, move_input[0] - 65, std::vector<Direction>());
     }
 }

@@ -48,51 +48,6 @@ void Board::print_board(Player* current_player) const {
     }
 }
 
-void Board::play_game() {
-    //PieceType current_player = PieceType::BLACK;
-    Player* current_player = new UserPlayer("X", PieceType::BLACK);
-    Player* second_player = new UserPlayer("O", PieceType::WHITE);
-
-    while (true) {
-        std::cout << "hi enjoy the game:\n";
-        print_board(current_player);
-
-        std::vector<std::pair<int,int>> valid_moves = get_valid_moves(current_player);
-        if (valid_moves.empty()) {
-            std::cout << "no valid moves for this player " << (current_player->get_symbol() == PieceType::BLACK ? "X" : "O") << ".\n";
-
-            // to check if the other player is out of moves too
-            std::vector<std::pair<int,int>> opponent_moves = get_valid_moves(current_player->get_symbol() == PieceType::BLACK ? current_player : second_player);
-            if (opponent_moves.empty()) {
-                std::cout << "no more moves for 2 players. game over\n";
-                int black_score = count_color(PieceType::BLACK);
-                int white_score = count_color(PieceType::WHITE);
-                std::cout << "score X: " << black_score << ", O: " << white_score << "\n";
-                return;
-            }
-
-            // tried to switch to other player turn
-            current_player = (current_player->get_symbol() == PieceType::BLACK ? current_player : second_player);
-            continue;
-        }
-
-        std::string move;
-        std::cout << "Player " << (current_player->get_symbol() == PieceType::BLACK ? "X" : "O") << " enter move (e.g., D3): ";
-        std::cin >> move;
-
-        int col = toupper(move[0]) - 'A';
-        int row = move[1] - '1';
-
-        std::pair<int,int> chosen = {row,col};
-
-        if (std::find(valid_moves.begin(), valid_moves.end(), chosen) == valid_moves.end()) {
-            std::cout << "Invalid move!\n";
-            continue;
-        }
-        place_piece(row,col,current_player->get_symbol());
-        current_player = (current_player->get_symbol() == PieceType::BLACK ? current_player : second_player);
-    }
-}
 
 void Board::flip_piece(int row, int col) {
     PieceType curr = _cells[row][col].get_piece();
@@ -188,6 +143,3 @@ int Board::count_color(PieceType color) const {
     return count;
 }
 
-int Board::count_score() const {
-    return count_color(PieceType::BLACK) - count_color(PieceType::WHITE);
-}

@@ -38,11 +38,10 @@ void Game::take_turn()
     {
         std::cin.clear();
         std::string s;
-        std::getline(std::cin,s);
-        std::getline(std::cin,s);
+        std::getline(std::cin, s);
+        std::getline(std::cin, s);
         std::cin.clear();
 
-        
         this->load_board();
         move = this->_players[this->_curr_player_index]->get_move();
     }
@@ -55,7 +54,9 @@ bool Game::is_game_over()
 {
     if (this->_board.get_valid_moves(this->_players[this->_curr_player_index]).empty())
     {
-        // WINNER PRINT
+        std::cout << "Game Over!" << std::endl;
+        std::cout << "X: " << this->_board.count_color(PieceType::BLACK) << " O: " << this->_board.count_color(PieceType::BLACK);
+
     }
     return false;
 }

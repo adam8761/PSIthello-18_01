@@ -27,6 +27,10 @@ private:
     int _scores[PLAYERS_COUNT];
     int _curr_player_index;
 
+/*
+Game Over!
+X: 30 O: 34
+*/
 public:
     /**
      * @brief function initializes a new game and starts its flow run
