@@ -1,8 +1,8 @@
 #pragma once
 #include "piece_type.hpp"
+#include "cell.hpp"
 #include <vector>
 #include <iostream>
-// will have to include "cell.hpp" here
 
 /**
  * @class Board
@@ -11,7 +11,7 @@
 class Board {
 private:
     static constexpr int BOARD_SIZE = 8;
-    //Cell _cells[BOARD_SIZE][BOARD_SIZE];
+    Cell _cells[BOARD_SIZE][BOARD_SIZE];
 
 public:
     /**
