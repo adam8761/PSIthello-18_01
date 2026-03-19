@@ -15,7 +15,7 @@ private:
 
 public:
     /**
-     * @brief constructor
+     * @brief default constructor
      */
     Board();
 
