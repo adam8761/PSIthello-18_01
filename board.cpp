@@ -20,16 +20,22 @@ void Board::init_board() {
 
 void Board::print_board() const {
     std::cout << "  ";
-    for (int col = 0; col < Board::BOARD_SIZE; col++)
+    for (char col = 'A'; col <= 'H'; col++) {
         std::cout << col << " ";
+    }
     std::cout << "\n";
 
     for (int row = 0; row < Board::BOARD_SIZE; row++) {
-        std::cout << row << " ";
-        for (int col = 0; col < 8; col++) {
-            PieceType p = _cells[row][col].get_piece();
-            char ch = (p == PieceType::EMPTY) ? '.' : (p == PieceType::BLACK ? 'B' : 'W');
-            std::cout << ch << " ";
+        std::cout << row + 1 << " ";
+        for (int col = 0; col < Board::BOARD_SIZE; col++) {
+            PieceType curr_piece = _cells[row][col].get_piece();
+            char mark;
+            switch (curr_piece) {
+                case PieceType::EMPTY: mark = '.'; break;
+                case PieceType::BLACK: mark = 'X'; break;
+                case PieceType::WHITE: mark = 'O'; break;
+            }
+            std::cout << mark << " ";
         }
         std::cout << "\n";
     }
