@@ -51,8 +51,12 @@ public:
 
     /**
      * @brief gets valid moves. returns a std::pair that saves a location on the board
+     * 
+     * @param player given player to find for him next valid moves
+     * 
+     * @return vector that contains the valid moves this player can choose right now
      */
-    std::vector<std::pair<int,int>> get_valid_moves() const;
+    std::vector<std::pair<int,int>> get_valid_moves(PieceType player) const;
 
     /**
      * @brief places piece on the board.

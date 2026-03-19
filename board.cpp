@@ -7,8 +7,8 @@ Board::Board() {
 }
 
 void Board::init_board() {
-    for (int row = 0; row < Board::BOARD_SIZE; row++) {
-        for (int col = 0; col < Board::BOARD_SIZE; col++) {
+    for (int row = 0; row < BOARD_SIZE; row++) {
+        for (int col = 0; col < BOARD_SIZE; col++) {
             _cells[row][col].set_piece(PieceType::EMPTY);
         }
     }
@@ -96,8 +96,49 @@ void Board::flip_piece(int row, int col) {
         _cells[row][col].set_piece(PieceType::BLACK);
 }
 
+std::vector<std::pair<int,int>> Board::get_valid_moves(PieceType player) const {
+    std::vector<std::pair<int,int>> moves;
+    PieceType opponent = (player == PieceType::BLACK ? PieceType::WHITE : PieceType::BLACK);
+    int directions[8][2] = {{-1,-1},{-1,0},{-1,1}, {0,-1},{0,1}, {1,-1},{1,0},{1,1}};
 
-std::vector<std::pair<int,int>> Board::get_valid_moves() const { return {}; }
+    for (int row = 0; row < BOARD_SIZE; row++) {
+        for (int col = 0; col < BOARD_SIZE; col++) {
+            if (_cells[row][col].get_piece() != PieceType::EMPTY)
+                continue;
+
+            bool valid = false;
+            for (auto &dir : directions) {
+                int new_row = row + dir[0];
+                int new_col = col + dir[1];
+
+                bool found_opponent = false;
+                while (new_row >= 0 && new_row < BOARD_SIZE && new_col >= 0 && new_col < BOARD_SIZE) {
+                    PieceType piece = _cells[new_row][new_col].get_piece();
+
+                    if (piece == opponent) {
+                        found_opponent = true;
+                    }
+                    else if (piece == player) {
+                        if (found_opponent)
+                            valid = true;
+                        break;
+                    }
+                    else {
+                        break;
+                    }
+                    new_row += dir[0];
+                    new_col += dir[1];
+                }
+                if (valid)
+                    break;
+            }
+            if (valid)
+                moves.emplace_back(row, col);
+        }
+    }
+    return moves;
+}
+
 void Board::place_piece(int row, int col, PieceType piece) {}
 int Board::count_color(PieceType color) const { return 0; }
 int Board::count_score() const { return 0; }
