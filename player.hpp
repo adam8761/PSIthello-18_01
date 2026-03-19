@@ -1,5 +1,6 @@
 #pragma once
-
+#include "piece_type.hpp"
+#include "move.hpp"
 #include <iostream>
 #include <string>
 
