@@ -1,8 +1,6 @@
-#include "board.hpp"
-#include <iostream>
 
-int main() {
-    Board board;
-    board.play_game();
+#include <iostream>
+int main(){
+
     return 0;
 }
